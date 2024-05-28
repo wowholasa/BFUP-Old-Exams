@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "dgSpecHash": "LSv6iYuIULhmx0YFB7jeinHS7lKSFcKn0OUXykAfBXIUhnh2bx2CO+lYG5h+9A9jKBAANLvGNngEV+qrBzqf5w==",
+  "success": true,
+  "projectFilePath": "c:\\Users\\maxbk\\GitHub\\BFUP-Old-Exams\\FPExam2023\\FPExam2023\\FPExam2023.fsproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\maxbk\\.nuget\\packages\\fsharp.core\\8.0.200\\fsharp.core.8.0.200.nupkg.sha512",
+    "C:\\Users\\maxbk\\.nuget\\packages\\microsoft.netcore.app.ref\\7.0.17\\microsoft.netcore.app.ref.7.0.17.nupkg.sha512",
+    "C:\\Users\\maxbk\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\7.0.17\\microsoft.windowsdesktop.app.ref.7.0.17.nupkg.sha512",
+    "C:\\Users\\maxbk\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\7.0.17\\microsoft.aspnetcore.app.ref.7.0.17.nupkg.sha512",
+    "C:\\Users\\maxbk\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\7.0.17\\microsoft.netcore.app.host.win-x64.7.0.17.nupkg.sha512"
+  ],
+  "logs": []
+}

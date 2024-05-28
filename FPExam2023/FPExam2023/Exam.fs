@@ -19,7 +19,6 @@
 (*
  module Exam2023 = 
  *)
-
 (* 1: Logic *)
 
     type prop =  
@@ -34,23 +33,53 @@
     let p4 = And(Or(TT, And(TT, FF)), Or(FF, And(TT, FF)))
     
 (* Question 1.1: Evaluation *)
-    let eval _ = failwith "not implemented"
+    let rec eval p = 
+        match p with
+        | TT -> true
+        | FF -> false
+        | And(x, y) -> (eval x) && (eval y)
+        | Or(x, y) -> (eval x) || (eval y)
+
     
 (* Question 1.2: Negation and implication *)
-    let negate _ = failwith "not implemented"
-    let implies _ = failwith "not implemented"
+    let rec negate p =
+        match p with
+        | TT -> FF
+        | FF -> TT
+        | And(x, y) -> Or((negate x), (negate y)) 
+        | Or(x, y) -> And((negate x), (negate y))
+
+    let rec implies p q = Or ((negate p), q)
 
 (* Question 1.3: Bounded universal quantifiers *)
-    let forall _ = failwith "not implemented"
+    let rec forall f lst  = 
+        match lst with 
+        | [] -> TT
+        | x::xs -> And((f x), (forall f xs))  
+        
+
 
 (* Question 1.4: Bounded existential quantifiers *)
 
-    let exists _ = failwith "not implemented"
+    let exists f lst = 
+        lst |> List.map f |> List.fold (fun acc x -> Or(acc, x)) FF
     
 (* Question 1.5: Bounded unique existential quantifiers *)
 
-    let existsOne _ = failwith "not implemented"
-    
+    let existsOne f lst = 
+        lst 
+        |> List.map f 
+        |> List.filter (fun x -> x = TT) 
+        |> function
+            | [_] -> TT
+            | _ -> FF
+
+    let existsOne2 f lst =
+        let lst' = List.map (fun x -> (x, f x)) lst
+        lst'
+        |> List.map (fun (x, fx) -> And(fx, forall (fun (y, fy) -> if x = y then TT else negate(fy)) lst'))
+        |> List.fold (fun acc x -> Or(acc, x)) FF
+
 (* 2: Code Comprehension *)
  
     let rec foo xs ys =  
@@ -76,19 +105,41 @@
     
     Q: What are the types of functions foo, bar, and baz?
 
-    A: <Your answer goes here>
-
+    A: 
+        foo has type list<'a> -> list<'a> -> option<list<'a>>
+        bar has type list<'a> -> list<'a> -> list<'a>
+        baz has type string -> string -> string
 
     Q: What do the function foo, bar, and baz do.
        Focus on what they do rather than how they do it.
 
-    A: <Your answer goes here>
+    A: 
+        foo takes two lists xs and ys of the same type, 
+        and checks if the first element is the same, 
+        if it is then it removes the element from both list
+        and recursively calls with the two new lists. 
+        If ys is empty, then it returns xs.
+        If the first elements of the lists are not the same, then it returns None.
+        
+        Shorter explanation:
+        foo takes two lists xs and ys, and checks if ys is a prefix of xs,
+        if it is it removes the prefix.
+        If ys is not a prefix of xs it returns None.
+
+        bar takes 2 lists xs and ys and checks if ys is a sublist of xs,
+        if it is it removes the sublist every time it occurs in xs and return the new list.
+
+        baz takes 2 strings a and b and checks if b is a substring of a,
+        if it is it removes the substring every time it occurs in a.
+
     
     Q: What would be appropriate names for functions 
        foo, bar, and baz?
 
-    A: <Your answer goes here>
-        
+    A: 
+        foo: tryRemovePrefix
+        bar: removeSublist
+        baz: removeSubstring  
     *)
         
 
@@ -106,17 +157,28 @@
        what are the types of snippets A, B, and C and what are they -- 
        focus on what they do rather than how they do it.
     
-    A: <Your answer goes here>
+    A:
+        A: list<char>
+        B: list<char>
+        C: list<char> -> string
+
     
     Q: Explain the use of the `|>`-operator in the baz function.
 
-    A: <Your answer goes here>
+    A: 
+        |> is the piping operator. It takes a value and uses it as an argument in the function that you pipe into.
+        In the context of the baz function the piping operator is used to take the value that is returned from the bar function
+        and uses that as the last argument for the List.fold function.
 
     *)
 
 (* Question 2.3: No recursion *) 
 
-    let foo2 _ = failwith "not implemented"
+    let foo2 xs ys = 
+        let ysLen = List.length ys
+        let xs', xs'' = List.splitAt ysLen xs 
+        if xs' = ys then Some xs'' else None
+
 
 (* Question 2.4 *)
 
@@ -132,33 +194,85 @@
        You do not have to step through the foo-function. You are allowed to evaluate 
        that function immediately.
 
-    A: <Your answer goes here>
-
+    A: 
+        < Did not bother >
     *)
+
 (* Question 2.5 *)
 
-    let barTail _ = failwith "not implemented"
+    let barTail xs ys = 
+        let rec aux xs ys c =
+            match foo xs ys with
+            | Some zs -> aux zs ys c
+            | None -> match xs with
+                      | [] -> [] |> c
+                      | x :: xs' -> aux xs' ys (fun r -> x :: r |> c)
+        aux xs ys id
+    
 
 (* 3: Collatz Conjecture *)
 
 (* Question 3.1: Collatz sequences *)
 
-    let collatz _ = failwith "not implemented"
+    let collatz x = 
+        let rec aux x xs =
+            match x with
+            | _ when x <= 0 -> failwith $"Non positive number: {x}"
+            | _ when x = 1 -> (1 :: xs)
+            | _ when x % 2 = 0 -> aux (x/2) (x :: xs)
+            | _ -> aux (3 * x + 1) (x :: xs)
+        (aux x []) |> List.rev
+    
+
 
 (* Question 3.2: Even and odd Collatz sequence elements *)
 
-    let evenOddCollatz _ = failwith "not implemented"
+    let evenOddCollatz x = 
+        let rec aux x (E, O) =
+            match x with
+            | _ when x <= 0 -> failwith $"Non positive number: {x}"
+            | _ when x = 1 -> (E, O + 1)
+            | _ when x % 2 = 0 -> aux (x/2) (E + 1, O)
+            | _ -> aux (3 * x + 1) (E, O + 1)
+        aux x (0,0) 
 
 (* Question 3.3: Maximum length Collatz Sequence *)
   
-    let maxCollatz _ = failwith "not implemented"
+    let maxCollatz x y = 
+        let rec aux z longest = 
+            match z with 
+            | _ when z < x -> longest
+            | _ ->
+                let length = collatz z |> List.length 
+                match length with
+                | _ when length <= snd longest -> aux (z - 1) longest
+                | _ -> aux (z - 1) (z, length)
+        aux y (0, 0)
+
 
 (* Question 3.4: Collecting by length *)
-    let collect _ = failwith "not implemented"
+    let collect x y = 
+        let rec aux z map = 
+            match z with 
+            | _ when z < x -> map
+            | _ ->
+                let length = collatz z |> List.length 
+                match Map.tryFind length map with 
+                | Some s -> 
+                    let s' = Set.add z s 
+                    let map' = Map.add length s' map 
+                    aux (z-1) map'
+                | None -> 
+                    let s = Set.add z Set.empty 
+                    let map' = Map.add length s map
+                    aux (z-1) map'
+        aux y Map.empty
     
 (* Question 3.5: Parallel maximum Collatz sequence *)
+    let parallelMaxCollatz x y n = 
+        failwith "Not implemented"
 
-    let parallelMaxCollatz _ = failwith "not implemented"
+
 
 (* 4: Memory machines *)
 
@@ -193,16 +307,39 @@
 
 (* Question 4.1: Memory blocks *)
 
-    type mem = unit (* replace this entire type with your own *)
-    let emptyMem _ = failwith "not implemented"
-    let lookup _ = failwith "not implemented"
-    let assign _ = failwith "not implemented"
+    type mem = M of array<int>
+
+    let emptyMem x  = 
+        Array.create x 0 |> M
+    let lookup  (M m) i = Array.get m i 
+    let assign (M m) i v = 
+        let m' = M (Array.insertAt i v m)
+        m'
 
 (* Question 4.2: Evaluation *)
 
-    let evalExpr _ = failwith "not implemented"
-    let evalStmnt _ = failwith "not implemented"
-    let evalProg _ = failwith "not implemented"
+    let rec evalExpr m e = 
+        match e with
+        | Num x -> x
+        | Lookup e' -> evalExpr m e' |> lookup m 
+        | Plus (e1, e2) -> (evalExpr m e1 |> lookup m) + (evalExpr m e2 |> lookup m) 
+        | Minus (e1, e2) -> (evalExpr m e1 |> lookup m) - (evalExpr m e2 |> lookup m) 
+
+
+    let rec evalStmnt m s = 
+        match s with
+        | Assign (e1, e2) -> 
+            let m' = assign m (evalExpr m e1) (evalExpr m e2)
+            m'
+        | While (e, p) -> 
+            match evalExpr m e with
+            | 0 -> m
+            | _ -> evalProg m (p @ [While(e, p)])
+    and evalProg m p =
+        match p with
+        | [] -> m
+        | _ -> List.fold (fun m' stmnt -> evalStmnt m' stmnt) m p
+
     
 (* Question 4.3: State monad *)
     type StateMonad<'a> = SM of (mem -> ('a * mem) option)  

@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "dgSpecHash": "r440Vt6lCADlzPPJwWsROI7wR4xJohpSg2liIAmjF3+mg0OZzVyNp2UJHbwrfZscKELxpwCt5ykZo8Knm2id0w==",
+  "success": true,
+  "projectFilePath": "c:\\Users\\maxbk\\GitHub\\BFUP-Old-Exams\\FPExam2022\\FPExam2022\\FPExam2022\\FPExam2022.fsproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\maxbk\\.nuget\\packages\\fsharp.core\\8.0.200\\fsharp.core.8.0.200.nupkg.sha512",
+    "C:\\Users\\maxbk\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.28\\microsoft.netcore.app.ref.6.0.28.nupkg.sha512",
+    "C:\\Users\\maxbk\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.28\\microsoft.windowsdesktop.app.ref.6.0.28.nupkg.sha512",
+    "C:\\Users\\maxbk\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.28\\microsoft.aspnetcore.app.ref.6.0.28.nupkg.sha512",
+    "C:\\Users\\maxbk\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\6.0.28\\microsoft.netcore.app.host.win-x64.6.0.28.nupkg.sha512"
+  ],
+  "logs": []
+}

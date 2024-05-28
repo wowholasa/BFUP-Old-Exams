@@ -7,11 +7,11 @@ open System
 open System.Reflection
 
 
-[<assembly: System.Reflection.AssemblyCompanyAttribute("FPExam2023")>]
+[<assembly: System.Reflection.AssemblyCompanyAttribute("FPExam2022")>]
 [<assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")>]
 [<assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")>]
 [<assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+361c14b63b57e844b5eb6115945da5e8aff48c81")>]
-[<assembly: System.Reflection.AssemblyProductAttribute("FPExam2023")>]
-[<assembly: System.Reflection.AssemblyTitleAttribute("FPExam2023")>]
+[<assembly: System.Reflection.AssemblyProductAttribute("FPExam2022")>]
+[<assembly: System.Reflection.AssemblyTitleAttribute("FPExam2022")>]
 [<assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")>]
 do()
